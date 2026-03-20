@@ -1,5 +1,6 @@
 import Hero from "@/components/ui/Hero";
 import Experience from "@/components/ui/Experience";
+import Qualification from "@/components/ui/Qualification";
 import Skills from "@/components/ui/Skills";
 import Projects from "@/components/ui/Projects";
 import PythonSection from "@/components/ui/PythonSection";
@@ -10,6 +11,7 @@ export default function Home() {
     <>
       <Hero />
       <Experience />
+      <Qualification />
       <Skills />
       <Projects />
       <PythonSection />
