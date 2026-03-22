@@ -3,6 +3,7 @@ import Experience from "@/components/ui/Experience";
 import Qualification from "@/components/ui/Qualification";
 import Skills from "@/components/ui/Skills";
 import Projects from "@/components/ui/Projects";
+import Certifications from "@/components/ui/Certifications";
 import PythonSection from "@/components/ui/PythonSection";
 import Contact from "@/components/ui/Contact";
 
@@ -14,6 +15,7 @@ export default function Home() {
       <Qualification />
       <Skills />
       <Projects />
+      <Certifications />
       <PythonSection />
       <Contact />
       
