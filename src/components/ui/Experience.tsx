@@ -4,7 +4,7 @@ import { Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
   {
-    role: "DevOps Engineer Intern",
+    role: "Associate DevOps Engineer",
     company: "RipenApps",
     period: "Feb 2026 – Present",
     points: [
