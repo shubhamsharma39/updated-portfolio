@@ -1,5 +1,6 @@
 import Hero from "@/components/ui/Hero";
 import Experience from "@/components/ui/Experience";
+import Training from "@/components/ui/Training";
 import Qualification from "@/components/ui/Qualification";
 import Skills from "@/components/ui/Skills";
 import Projects from "@/components/ui/Projects";
@@ -12,6 +13,7 @@ export default function Home() {
     <>
       <Hero />
       <Experience />
+      <Training />
       <Qualification />
       <Skills />
       <Projects />
