@@ -5,6 +5,8 @@
   --color-secondary: #ff00ea;
   --color-background: #010314;
   --color-foreground: #ffffff;
+  --color-neon-blue: #00f3ff;
+  --color-neon-purple: #bc13fe;
 }
 
 :root {

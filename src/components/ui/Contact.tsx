@@ -5,18 +5,50 @@ import { Mail, Linkedin, Github, Send, ArrowRight, Twitter } from "lucide-react"
 import { useState } from "react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    setError("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
       setLoading(false);
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    }, 1500);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (err: any) {
+      console.error("Contact form submission error:", err);
+      setLoading(false);
+      setError(err?.message || "Failed to send message. Please try again later.");
+    }
   };
 
   return (
@@ -136,11 +168,27 @@ export default function Contact() {
             className="md:col-span-3"
           >
             <form onSubmit={handleSubmit} className="glass-card p-8 rounded-2xl border border-white/5 space-y-6">
+              {error && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center justify-between">
+                  <span>{error}</span>
+                  <button
+                    type="button"
+                    onClick={() => setError("")}
+                    className="text-red-400 hover:text-white font-bold ml-2"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm text-gray-400 font-medium ml-1">Name</label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                     className="w-full bg-[#0a0f1c]/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-600"
                     placeholder="John Doe"
@@ -150,6 +198,9 @@ export default function Contact() {
                   <label className="text-sm text-gray-400 font-medium ml-1">Email</label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                     className="w-full bg-[#0a0f1c]/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-600"
                     placeholder="john@example.com"
@@ -161,6 +212,9 @@ export default function Contact() {
                 <label className="text-sm text-gray-400 font-medium ml-1">Subject</label>
                 <input
                   type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   required
                   className="w-full bg-[#0a0f1c]/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-600"
                   placeholder="Job Opportunity"
@@ -170,6 +224,9 @@ export default function Contact() {
               <div className="space-y-2">
                 <label className="text-sm text-gray-400 font-medium ml-1">Message</label>
                 <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   required
                   rows={4}
                   className="w-full bg-[#0a0f1c]/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all placeholder:text-gray-600 resize-none"
